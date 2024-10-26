@@ -66,7 +66,7 @@ embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-b
 load_dotenv()  # Loads variables from .env file into environment
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-llm = ChatOpenAI(model="gpt-3.5-turbo-1106", openai_api_key=OPENAI_API_KEY, temperature=0)
+llm = ChatOpenAI(model="gpt-3.5-turbo-1106", openai_api_key=st.secrets["OPENAI_API_KEY"], temperature=0)
 
 #load FAISS vector db
 new_vector_store = FAISS.load_local(folder_path="main",
