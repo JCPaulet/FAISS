@@ -37,5 +37,5 @@ faiss-cpu
 #chromadb.utils 
 #streamlit_chromadb_connection
 tornado>=6.0
-langchain_community.vectorstores
+#langchain_community.vectorstores
 python-dotenv
