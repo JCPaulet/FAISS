@@ -39,7 +39,7 @@ import operator
 from langchain_core.messages import AnyMessage, SystemMessage, HumanMessage, ToolMessage
 
 from langchain_openai import ChatOpenAI
-from langchain_community.vectorstores import FAISS
+#from langchain_community.vectorstores import FAISS
 import faiss
 import numpy as np
 from langsmith import traceable
