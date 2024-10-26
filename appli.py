@@ -44,7 +44,7 @@ import faiss
 import numpy as np
 from langsmith import traceable
 
-import SentenceTransformerEmbeddingFunction as embedding_functions #importing the code of the class "SentenceTransformerEmbeddingFunction" which I saved in the same folder as this file.
+
 from langchain_experimental.text_splitter import SemanticChunker
 
 from langchain.embeddings.base import Embeddings
