@@ -6,7 +6,7 @@ click==8.1.7
 requests
 protobuf==4.25.3
 #sqlite3
-#pysqlite3-binary
+pysqlite3-binary
 #chromadb
 #langchain.text_splitter 
 pypdf 
