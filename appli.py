@@ -44,9 +44,6 @@ import faiss
 import numpy as np
 from langsmith import traceable
 
-
-from langchain_experimental.text_splitter import SemanticChunker
-
 from langchain.embeddings.base import Embeddings
 import streamlit as st
 from langchain_huggingface import HuggingFaceEmbeddings
