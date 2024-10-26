@@ -43,10 +43,10 @@ from langchain_openai import ChatOpenAI
 import faiss
 import numpy as np
 from langsmith import traceable
-import chromadb
+
 import SentenceTransformerEmbeddingFunction as embedding_functions #importing the code of the class "SentenceTransformerEmbeddingFunction" which I saved in the same folder as this file.
 from langchain_experimental.text_splitter import SemanticChunker
-from chromadb import Client
+
 from langchain.embeddings.base import Embeddings
 import streamlit as st
 from langchain_huggingface import HuggingFaceEmbeddings
