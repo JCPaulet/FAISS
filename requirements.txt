@@ -31,7 +31,7 @@ typing
 #langchain_core.messages 
 langchain_openai 
 #langchain_community.vectorstores 
-faiss
+faiss-cpu
 #langchain.embeddings.base
 #langchain_experimental.text_splitter
 #chromadb.utils 
