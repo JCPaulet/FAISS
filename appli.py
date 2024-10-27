@@ -182,7 +182,7 @@ class GraphState(TypedDict):
 
 @traceable
 def retrieve(state: GraphState):
-    print('retrieve')
+    st.write('retrieve')
     question = state["question"]
     multiple_queries=multiply_query.invoke({"query": question})
 
