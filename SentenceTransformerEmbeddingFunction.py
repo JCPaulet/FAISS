@@ -15,7 +15,7 @@ class SentenceTransformerEmbeddingFunction(EmbeddingFunction[Documents]):
     # for a full list of options: https://huggingface.co/sentence-transformers, https://www.sbert.net/docs/pretrained_models.html
     def __init__(
         self,
-        model_name: str = "sentence-transformers/all-mpnet-base-v2",
+        model_name: str = "sentence-transformers/all-MiniLM-L6-v2",
         device: str = "cpu",
         normalize_embeddings: bool = False,
         **kwargs: Any,
