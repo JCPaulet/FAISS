@@ -73,7 +73,7 @@ llm = ChatOpenAI(model="gpt-3.5-turbo-1106", openai_api_key=st.secrets["OPENAI_A
 import os
 
 absolute_path = os.path.abspath("faiss_index.faiss")
-print("Absolute Path for FAISS index:", absolute_path)
+#print("Absolute Path for FAISS index:", absolute_path)
 
 # Update folder_path if needed
 new_vector_store = FAISS.load_local(
