@@ -69,11 +69,20 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 llm = ChatOpenAI(model="gpt-3.5-turbo-1106", openai_api_key=st.secrets["OPENAI_API_KEY"], temperature=0)
 
 #load FAISS vector db
-new_vector_store = FAISS.load_local(folder_path=".",
-                                    index_name="faiss_index",
-                                    embeddings=embeddings, 
-                                    allow_dangerous_deserialization=True
-                                    )
+
+import os
+
+absolute_path = os.path.abspath("faiss_index.faiss")
+print("Absolute Path for FAISS index:", absolute_path)
+
+# Update folder_path if needed
+new_vector_store = FAISS.load_local(
+    folder_path=os.path.dirname(absolute_path),
+    index_name="faiss_index",
+    embeddings=embeddings,
+    allow_dangerous_deserialization=True
+)
+
 
 # Cache the function to load documents and compute embeddings
 #@st.cache_data(show_spinner=False)
