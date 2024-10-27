@@ -63,8 +63,8 @@ sys.modules['sqlite3'] = sqlite3
 embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
 
 
-load_dotenv()  # Loads variables from .env file into environment
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+#load_dotenv()  # Loads variables from .env file into environment
+#OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 llm = ChatOpenAI(model="gpt-3.5-turbo-1106", openai_api_key=st.secrets["OPENAI_API_KEY"], temperature=0)
 
