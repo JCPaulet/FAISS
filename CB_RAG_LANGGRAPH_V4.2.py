@@ -109,13 +109,12 @@ class SentenceTransformerEmbeddingFunction(Embeddings):
     def embed_query(self, text):
         return self.model.encode(text)
 
- 
-# Retrieval Grader setup
-llm = ChatOpenAI(model="gpt-3.5-turbo-1106",openai_api_key="", temperature=0)
+
+llm = ChatOpenAI(model="gpt-3.5-turbo-1106", openai_api_key=st.secrets["OPENAI_API_KEY"], temperature=0)
 
 #load the chroma collection 
 
-embedding_function = embedding_functions.SentenceTransformerEmbeddingFunction(model_name='sentence-transformers/all-mpnet-base-v2')
+embedding_function = embedding_functions.SentenceTransformerEmbeddingFunction(model_name='sentence-transformers/all-MiniLM-L6-v2')
 
 
 
@@ -123,7 +122,7 @@ embedding_function = embedding_functions.SentenceTransformerEmbeddingFunction(mo
 st.set_page_config(page_title="E+ Prog. Guide Chatbot", page_icon=":notebook:")
 #client = chromadb.PersistentClient(path=".devcontainer")
 # Directory to save downloaded files
-db_directory = '.devcontainer'
+db_directory = '.'
 
 
 # Now configure the connection to Chroma DB
@@ -153,7 +152,7 @@ multiply_query_prompt = ChatPromptTemplate(
                 input_variables=['query'],
                 template=(
             "You are a helpful Erasmus + programme guide expert. Your users are asking questions about the Erasmus + programme guide. "
-            "Suggest up to five additional related questions to help them find the information they need, for the provided question. "
+            "Suggest up to three additional related questions to help them find the information they need, for the provided question. "
             "Suggest only short questions without compound sentences. Suggest a variety of questions that cover different aspects of the topic."
             "Make sure they are complete questions, and that they are related to the original question."
             "Output one question per line. Do not number the questions."
@@ -258,7 +257,7 @@ def retrieve(state: GraphState):
    # from chromadb.api.types import QueryResult
    # results = chroma_collection.query(
    #     query_texts=queries,
-   #     n_results=5,
+   #     n_results=7,
    #     include=["documents", "embeddings", "metadatas"]
 #)
     
