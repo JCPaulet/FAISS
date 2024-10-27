@@ -184,16 +184,17 @@ class GraphState(TypedDict):
 def retrieve(state: GraphState):
     st.write('retrieve')
     question = state["question"]
-    multiple_queries=multiply_query.invoke({"query": question})
+   # multiple_queries=multiply_query.invoke({"query": question})
 
     # Split the string into a list using the '-' as the delimiter
-    queries_list = multiple_queries.split('\n')
+    #queries_list = multiple_queries.split('\n')
 
     # Remove any empty strings that may result from the split
-    queries_list = [sentence.replace('-', '').strip() for sentence in queries_list if sentence.strip()]
-    print(queries_list)
+    #queries_list = [sentence.replace('-', '').strip() for sentence in queries_list if sentence.strip()]
+    #print(queries_list)
 
-    queries = [question] + queries_list
+    #queries = [question] + queries_list
+    queries=[question]
     #retrieval using FAISS
     results = new_vector_store.similarity_search( queries,
     k=3,)
