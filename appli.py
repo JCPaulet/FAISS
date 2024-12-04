@@ -439,7 +439,7 @@ def write_message(role, content, save=True):
 
 
 
-    if "messages" not in st.session_state:
+if "messages" not in st.session_state:
         st.session_state.messages = [
             {"role": "assistant", "content": "Hi, I'm the Erasmus + programme guide Chatbot! How can I help you?"},
     ]    
