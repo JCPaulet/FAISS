@@ -432,8 +432,8 @@ def generate_response(question):
 
 
 def write_message(role, content, save=True):
-        if save:
-            st.session_state.messages.append({"role": role, "content": content})
+    if save:
+        st.session_state.messages.append({"role": role, "content": content})
         with st.chat_message(role):
             st.markdown(content)
 
@@ -445,7 +445,7 @@ def write_message(role, content, save=True):
     ]    
 
 def handle_submit(message):
-        with st.spinner('Thinking...'):
+    with st.spinner('Thinking...'):
             response = generate_response(message)
             write_message('assistant', response)
 
