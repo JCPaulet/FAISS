@@ -431,7 +431,7 @@ def generate_response(question):
 
 
 
-    def write_message(role, content, save=True):
+def write_message(role, content, save=True):
         if save:
             st.session_state.messages.append({"role": role, "content": content})
         with st.chat_message(role):
@@ -444,7 +444,7 @@ def generate_response(question):
             {"role": "assistant", "content": "Hi, I'm the Erasmus + programme guide Chatbot! How can I help you?"},
     ]    
 
-    def handle_submit(message):
+def handle_submit(message):
         with st.spinner('Thinking...'):
             response = generate_response(message)
             write_message('assistant', response)
