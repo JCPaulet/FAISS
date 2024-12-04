@@ -435,14 +435,14 @@ def write_message(role, content, save=True):
     if save:
         st.session_state.messages.append({"role": role, "content": content})
     with st.chat_message(role):
-            st.markdown(content)
+        st.markdown(content)
 
 
 
 if "messages" not in st.session_state:
         st.session_state.messages = [
             {"role": "assistant", "content": "Hi, I'm the Erasmus + programme guide Chatbot! How can I help you?"},
-    ]    
+        ]    
 
 def handle_submit(message):
     with st.spinner('Thinking...'):
