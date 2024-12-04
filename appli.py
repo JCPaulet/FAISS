@@ -141,7 +141,7 @@ conn = st.connection(name="EPPG_2025_mpnet_embeddings",
                       
                          **configuration)
 
-collection_name = "semantic_chunker_streamlit"
+collection_name = "EPPG_2025_mpnet_embeddings"
 
 
 
