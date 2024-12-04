@@ -437,7 +437,7 @@ def write_message(role, content, save=True):
     with st.chat_message(role):
             st.markdown(content)
 
-st.set_page_config("E+ Prog. Guide Chatbot", page_icon=":notebook:")
+
 
 if "messages" not in st.session_state:
         st.session_state.messages = [
