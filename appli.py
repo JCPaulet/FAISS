@@ -225,6 +225,7 @@ re_write_prompt = PromptTemplate(
 )
 question_rewriter = re_write_prompt | llm | StrOutputParser()
 
+@st.cache_data(show_spinner=False)
 
 # Define GraphState to use CustomDocument
 class GraphState(TypedDict):
@@ -236,10 +237,10 @@ class GraphState(TypedDict):
         return self.name
 
 
-@st.cache_data(show_spinner=False)
+
 # Define the retrieve function
 
-
+@traceable
 def retrieve(state: GraphState):
     print('retrieve')
     question = state["question"]
@@ -316,6 +317,7 @@ def retrieve(state: GraphState):
    
 
 # Define the generate function
+@traceable
 def generate(state: GraphState):
     print('generate')
     question = state["question"]
@@ -330,6 +332,7 @@ def generate(state: GraphState):
 
 
 # Define the grade_documents function
+@traceable
 def grade_documents(state: GraphState):
     print('grade')
     question = state["question"]
@@ -342,19 +345,19 @@ def grade_documents(state: GraphState):
             filtered_docs.append(d)
     return {"documents": [doc.to_dict() for doc in filtered_docs], "question": question}
 
-
+@traceable
 def transform_query(state: GraphState):
     question = state["question"]
     documents = state["documents"]
     better_question = question_rewriter.invoke({"question": question})
     return {"documents": documents, "question": better_question}
-
+@traceable
 def decide_to_generate(state: GraphState):
     filtered_documents = state["documents"]
     if not filtered_documents:
         return "transform_query"
     return "generate"
-
+@traceable
 def grade_generation_v_documents_and_question(state: GraphState):
     question = state["question"]
     documents = state["documents"]
