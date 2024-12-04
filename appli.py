@@ -392,11 +392,11 @@ workflow.add_conditional_edges(
     grade_generation_v_documents_and_question,
     {"not supported": "generate", "useful": END, "not useful": "transform_query"},
 )
-#with SqliteSaver.from_conn_string(":memory:") as checkpointer:
-#    appli = workflow.compile(checkpointer=checkpointer)
+with SqliteSaver.from_conn_string(":memory:") as checkpointer:
+    appli = workflow.compile(checkpointer=checkpointer)
     
-memory = SqliteSaver.from_conn_string(":memory:")
-appli = workflow.compile(checkpointer=memory)
+#memory = SqliteSaver.from_conn_string(":memory:")
+#appli = workflow.compile(checkpointer=memory)
 
 # Streamlit UI setup
 
