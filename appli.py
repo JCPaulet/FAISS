@@ -136,7 +136,7 @@ configuration = {
 
 #try:
    #st.write("Connecting to Chroma DB...")
-conn = st.connection(name="semantic_chunker_streamlit",
+conn = st.connection(name="EPPG_2025_mpnet_embeddings",
                          type=ChromadbConnection,
                       
                          **configuration)
