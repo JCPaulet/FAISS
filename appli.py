@@ -236,7 +236,7 @@ class GraphState(TypedDict):
         return self.name
 
 
-#@st.cache_data(show_spinner=False)
+@st.cache_data(show_spinner=False)
 # Define the retrieve function
 
 
