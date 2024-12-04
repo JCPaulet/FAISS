@@ -449,9 +449,9 @@ def handle_submit(message):
             response = generate_response(message)
             write_message('assistant', response)
 
-    for message in st.session_state.messages:
+for message in st.session_state.messages:
         write_message(message['role'], message['content'], save=False)
 
-    if question := st.chat_input("What is your question?... Type it here"):
+if question := st.chat_input("What is your question?... Type it here"):
         write_message('user', question)
         handle_submit(question)
