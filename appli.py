@@ -402,7 +402,7 @@ appli = workflow.compile(checkpointer=memory)
 
 
 # Streamlit UI setup
-    def generate_response(question):
+def generate_response(question):
         inputs = {"question": question}
         config = {"configurable": {"thread_id": "2"}}
         all_outputs = []
