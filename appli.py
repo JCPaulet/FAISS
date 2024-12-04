@@ -225,7 +225,7 @@ re_write_prompt = PromptTemplate(
 )
 question_rewriter = re_write_prompt | llm | StrOutputParser()
 
-@st.cache_data(show_spinner=False)
+#@st.cache_data(show_spinner=False)
 
 # Define GraphState to use CustomDocument
 class GraphState(TypedDict):
