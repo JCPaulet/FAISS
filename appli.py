@@ -434,7 +434,7 @@ def generate_response(question):
 def write_message(role, content, save=True):
     if save:
         st.session_state.messages.append({"role": role, "content": content})
-        with st.chat_message(role):
+    with st.chat_message(role):
             st.markdown(content)
 
 st.set_page_config("E+ Prog. Guide Chatbot", page_icon=":notebook:")
