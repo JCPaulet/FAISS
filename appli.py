@@ -283,7 +283,8 @@ def retrieve(state: GraphState):
             unique_doc_indices[document] = (i, j)
 
     unique_documents = list(unique_documents)
-
+    print('unique_documents:')
+    print(unique_documents)
     pairs = []
     metadatas = []
     for doc in unique_documents:
@@ -311,7 +312,8 @@ def retrieve(state: GraphState):
         _, document = pair
         custom_doc = CustomDocument(page_content=document, metadata=metadata)
         context.append(custom_doc)
-
+    print('context:')
+    print(context)
     return {"documents": [doc.to_dict() for doc in context], "question": question}
     
    
@@ -337,7 +339,7 @@ def grade_documents(state: GraphState):
     print('grade')
     question = state["question"]
     documents = [CustomDocument(**doc) for doc in state["documents"]]
-    print(documents)
+    
     filtered_docs = []
     for d in documents:
         score = retrieval_grader.invoke({"question": question, "document": d.page_content})
