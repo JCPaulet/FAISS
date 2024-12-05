@@ -402,7 +402,7 @@ with SqliteSaver.from_conn_string(":memory:") as checkpointer:
 
 
 # Streamlit UI setup
-def generate_response(question):
+    def generate_response(question):
         inputs = {"question": question}
         config = {"configurable": {"thread_id": "2"}}
         all_outputs = []
@@ -431,27 +431,27 @@ def generate_response(question):
 
 
 
-def write_message(role, content, save=True):
-    if save:
-        st.session_state.messages.append({"role": role, "content": content})
-    with st.chat_message(role):
-        st.markdown(content)
+    def write_message(role, content, save=True):
+        if save:
+            st.session_state.messages.append({"role": role, "content": content})
+        with st.chat_message(role):
+            st.markdown(content)
 
 
 
-if "messages" not in st.session_state:
+    if "messages" not in st.session_state:
         st.session_state.messages = [
             {"role": "assistant", "content": "Hi, I'm the Erasmus + programme guide Chatbot! How can I help you?"},
         ]    
 
-def handle_submit(message):
-    with st.spinner('Thinking...'):
+    def handle_submit(message):
+        with st.spinner('Thinking...'):
             response = generate_response(message)
             write_message('assistant', response)
 
-for message in st.session_state.messages:
+    for message in st.session_state.messages:
         write_message(message['role'], message['content'], save=False)
 
-if question := st.chat_input("What is your question?... Type it here"):
+    if question := st.chat_input("What is your question?... Type it here"):
         write_message('user', question)
         handle_submit(question)
