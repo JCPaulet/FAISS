@@ -379,24 +379,40 @@ def grade_generation_v_documents_and_question(state: GraphState):
 #initial_state = {"question": "", "generation": "", "documents": []}
 
 workflow = StateGraph(GraphState)
+
+# Define nodes
 workflow.add_node("retrieve", retrieve)
 workflow.add_node("grade_documents", grade_documents)
 workflow.add_node("generate", generate)
 workflow.add_node("transform_query", transform_query)
 
+# Entry point
 workflow.set_entry_point("retrieve")
+
+# Define edges
 workflow.add_edge("retrieve", "grade_documents")
 workflow.add_conditional_edges(
     "grade_documents",
     decide_to_generate,
-    {"transform_query": "transform_query", "generate": "generate"},
+    {
+        "transform_query": "transform_query",
+        "generate": "generate",
+        END: END,  # Explicit stop condition
+    },
 )
 workflow.add_edge("transform_query", "retrieve")
 workflow.add_conditional_edges(
     "generate",
     grade_generation_v_documents_and_question,
-    {"not supported": "generate", "useful": END, "not useful": "transform_query"},
+    {
+        "not supported": "transform_query",  # Avoid looping back to "generate"
+        "useful": END,  # Explicit stop condition
+        "not useful": "transform_query",
+    },
 )
+
+
+
 with SqliteSaver.from_conn_string(":memory:") as checkpointer:
     appli = workflow.compile(checkpointer=checkpointer)
     
