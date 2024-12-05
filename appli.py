@@ -314,7 +314,7 @@ def retrieve(state: GraphState):
         context.append(custom_doc)
     print('context:')
     print(context)
-return {"documents": [doc.to_dict() for doc in context], "question": question}
+ return {"documents": [doc.to_dict() for doc in context], "question": question}
     
    
 
