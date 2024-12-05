@@ -239,7 +239,7 @@ class GraphState(TypedDict):
 
 
 # Define the retrieve function
-
+from sentence_transformers import CrossEncoder
 @traceable
 def retrieve(state: GraphState):
     print('retrieve')
@@ -292,7 +292,7 @@ def retrieve(state: GraphState):
         i, j = unique_doc_indices[doc]
         metadatas.append(retrieved_metadatas[i][j])
     
-    from sentence_transformers import CrossEncoder
+    
     cross_encoder = CrossEncoder('sentence-transformers/all-mpnet-base-v2')
    
 # Get the scores for each pair
@@ -306,15 +306,16 @@ def retrieve(state: GraphState):
     
 # Keep only the top 7 pairs
     top_7_pairs = scored_pairs_sorted[:7]
+    print('top 7 pairs:')
+    print(top_7_pairs)
    # Create CustomDocument objects
     context = []
     for score, pair, metadata in top_7_pairs:
         _, document = pair
         custom_doc = CustomDocument(page_content=document, metadata=metadata)
         context.append(custom_doc)
-    print('context:')
-    print(context)
- return {"documents": [doc.to_dict() for doc in context], "question": question}
+    
+    return {"documents": [doc.to_dict() for doc in context], "question": question}
     
    
 
