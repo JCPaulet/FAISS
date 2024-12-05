@@ -266,7 +266,7 @@ def retrieve(state: GraphState):
     results = conn.query(
                         collection_name=collection_name,
                          query=queries,
-                          num_results_limit=5,
+                          num_results_limit=3,
                         
                           attributes=["documents", "embeddings", "metadatas"])
 
@@ -305,9 +305,8 @@ def retrieve(state: GraphState):
     scored_pairs_sorted = sorted(scored_pairs, key=lambda x: x[0], reverse=True)
     
 # Keep only the top 7 pairs
-    top_7_pairs = scored_pairs_sorted[:7]
-    print('top 7 pairs:')
-    print(top_7_pairs)
+    top_7_pairs = scored_pairs_sorted[:3]
+    
    # Create CustomDocument objects
     context = []
     for score, pair, metadata in top_7_pairs:
