@@ -244,6 +244,7 @@ from sentence_transformers import CrossEncoder
 def retrieve(state: GraphState):
     print('retrieve')
     question = state["question"]
+    print(question)
     multiple_queries=multiply_query.invoke({"query": question})
 
     # Split the string into a list using the '-' as the delimiter
