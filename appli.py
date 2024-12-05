@@ -314,7 +314,7 @@ def retrieve(state: GraphState):
         context.append(custom_doc)
     print('context:')
     print(context)
-    return {"documents": [doc.to_dict() for doc in context], "question": question}
+return {"documents": [doc.to_dict() for doc in context], "question": question}
     
    
 
@@ -342,9 +342,10 @@ def grade_documents(state: GraphState):
     
     filtered_docs = []
     for d in documents:
-        print(d.page_content)
+        
         score = retrieval_grader.invoke({"question": question, "document": d.page_content})
         if score['score'] == "yes":
+            print('grader is positive')
             filtered_docs.append(d)
     return {"documents": [doc.to_dict() for doc in filtered_docs], "question": question}
 
