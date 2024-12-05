@@ -337,7 +337,7 @@ def grade_documents(state: GraphState):
     print('grade')
     question = state["question"]
     documents = [CustomDocument(**doc) for doc in state["documents"]]
-    #print(documents)
+    print(documents)
     filtered_docs = []
     for d in documents:
         score = retrieval_grader.invoke({"question": question, "document": d.page_content})
