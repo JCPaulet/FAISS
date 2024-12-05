@@ -298,8 +298,8 @@ def retrieve(state: GraphState):
     scores = cross_encoder.predict(pairs)
 
 # Combine scores with their corresponding pairs and metadatas
-    #scored_pairs = list(zip(scores, pairs, metadatas))
-    scored_pairs: List[Tuple[float, any]] = list(zip(scores, pairs, metadatas))
+    scored_pairs = list(zip(scores, pairs, metadatas))
+    #scored_pairs: List[Tuple[float, any]] = list(zip(scores, pairs, metadatas))
 # Sort the scored_pairs by score in descending order
     scored_pairs_sorted = sorted(scored_pairs, key=lambda x: x[0], reverse=True)
     
