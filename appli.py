@@ -54,7 +54,7 @@ import langgraph
 
 from langgraph.graph import END, StateGraph
 from typing_extensions import TypedDict
-from typing import List, TypedDict, Annotated
+from typing import List, TypedDict, Annotated, Tuple
 import operator
 from langchain_core.messages import AnyMessage, SystemMessage, HumanMessage, ToolMessage
 
@@ -298,11 +298,11 @@ def retrieve(state: GraphState):
     scores = cross_encoder.predict(pairs)
 
 # Combine scores with their corresponding pairs and metadatas
-    scored_pairs = list(zip(scores, pairs, metadatas))
-
+    #scored_pairs = list(zip(scores, pairs, metadatas))
+    scored_pairs: List[Tuple[float, any]] = list(zip(scores, pairs, metadatas))
 # Sort the scored_pairs by score in descending order
     scored_pairs_sorted = sorted(scored_pairs, key=lambda x: x[0], reverse=True)
-
+    
 # Keep only the top 7 pairs
     top_7_pairs = scored_pairs_sorted[:7]
    # Create CustomDocument objects
