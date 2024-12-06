@@ -404,16 +404,6 @@ workflow.add_conditional_edges(
     },
 )
 workflow.add_edge("transform_query", "retrieve")
-workflow.add_edge("retrieve", "grade_documents")
-workflow.add_conditional_edges(
-    "grade_documents",
-    decide_to_generate,
-    {
-        "transform_query": "transform_query",
-        "generate": "generate",
-        END: END,  # Explicit stop condition
-    },
-)
 workflow.add_conditional_edges(
     "generate",
     grade_generation_v_documents_and_question,
