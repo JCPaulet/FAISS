@@ -164,15 +164,15 @@ multiply_query_prompt = ChatPromptTemplate(
 multiply_query= multiply_query_prompt | llm | StrOutputParser()  
 
 retrieval_grader_prompt = PromptTemplate(
-    template="""You are a grader assessing relevance of a retrieved document to a user question.
+    template="""You are a grader assessing the relevance of a retrieved document to a user question.
     Here is the retrieved document: \n\n {document} \n\n
     Here is the user question: {question}
-    If the document contains keywords related to the user question, grade it as relevant.
-    It does not need to be a stringent test. The goal is to filter out erroneous retrievals.
-    Give a binary score 'yes' or 'no' score to indicate whether the document is relevant to the question.
+    If the document contains keywords or concepts related to the user question, grade it as relevant.
+    Be lenient in your grading; even partial relevance should be graded as 'yes.'
     Provide the binary score as a JSON with a single key 'score' and no preamble or explanation.""",
     input_variables=["question", "document"],
 )
+
 retrieval_grader = retrieval_grader_prompt | llm | JsonOutputParser()
 
 # Prompt template for the main task
@@ -339,22 +339,27 @@ def generate(state: GraphState):
 
 # Define the grade_documents function
 @traceable
+@traceable
 def grade_documents(state: GraphState):
     print('grade')
     question = state["question"]
     documents = [CustomDocument(**doc) for doc in state["documents"]]
-    
+    print(f"Grading {len(documents)} documents...")
+
     filtered_docs = []
     for d in documents:
-        
+        # Get the grading score
         score = retrieval_grader.invoke({"question": question, "document": d.page_content})
+        print(f"Grading document: {d.page_content[:100]}... -> Score: {score}")
+
+        # Add document to filtered list if relevant
         if score['score'] == "yes":
-            print('grader is positive')
+            print("Document graded as relevant.")
             filtered_docs.append(d)
-        if score['score'] == "no":
-            print('grader says NO!')
-            print(d.page_content)
-            print('*****************')
+        else:
+            print("Document graded as NOT relevant.")
+
+    print(f"Filtered down to {len(filtered_docs)} documents.")
     return {"documents": [doc.to_dict() for doc in filtered_docs], "question": question}
 
 @traceable
