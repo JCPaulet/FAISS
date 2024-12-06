@@ -167,11 +167,12 @@ retrieval_grader_prompt = PromptTemplate(
     template="""You are a grader assessing the relevance of a retrieved document to a user question.
     Here is the retrieved document: \n\n {document} \n\n
     Here is the user question: {question}
-    If the document contains keywords or concepts related to the user question, grade it as relevant.
-    Be lenient in your grading; even partial relevance should be graded as 'yes.'
+    If the document contains any information, keywords, or context that could help answer the user question, grade it as relevant.
+    Be lenient and accept partial relevance. 
     Provide the binary score as a JSON with a single key 'score' and no preamble or explanation.""",
     input_variables=["question", "document"],
 )
+
 
 retrieval_grader = retrieval_grader_prompt | llm | JsonOutputParser()
 
