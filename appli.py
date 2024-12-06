@@ -271,9 +271,7 @@ def retrieve(state: GraphState):
                           num_results_limit=3,
                         
                           attributes=["documents", "embeddings", "metadatas"])
-    
-
-    try:
+   try:
     # Ensure results is a dictionary
         if not isinstance(results, dict):
             raise ValueError(f"Expected results to be a dict, but got {type(results)}")
@@ -284,10 +282,20 @@ def retrieve(state: GraphState):
         print(f"IDs: {results.get('ids')}")
         print(f"Metadatas: {results.get('metadatas')}")
 
+    # Initialize variables to ensure they exist even if an error occurs
+        retrieved_documents = []
+        retrieved_ids = []
+        retrieved_metadatas = []
+
     # Flatten the nested structure if valid
-        retrieved_documents = [doc for sublist in results.get("documents", []) for doc in sublist]
-        retrieved_ids = [doc_id for sublist in results.get("ids", []) for doc_id in sublist]
-        retrieved_metadatas = [metadata for sublist in results.get("metadatas", []) for metadata in sublist]
+        if "documents" in results:
+            retrieved_documents = [doc for sublist in results["documents"] for doc in sublist]
+
+        if "ids" in results:
+            retrieved_ids = [doc_id for sublist in results["ids"] for doc_id in sublist]
+
+        if "metadatas" in results:
+            retrieved_metadatas = [metadata for sublist in results["metadatas"] for metadata in sublist]
 
     # Debug the flattened results
         print(f"Retrieved Documents: {retrieved_documents}")
@@ -298,8 +306,13 @@ def retrieve(state: GraphState):
         assert len(retrieved_documents) == len(retrieved_ids) == len(retrieved_metadatas), "Mismatch in lengths of retrieved data."
 
     except Exception as e:
+    # Handle exceptions and ensure the code doesn't crash
         print(f"An error occurred: {e}")
 
+    # Provide default values in case of an error
+    retrieved_documents = []
+    retrieved_ids = []
+    retrieved_metadatas = []
 
 # Process unique documents
     unique_documents = {}
