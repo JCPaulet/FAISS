@@ -271,6 +271,8 @@ def retrieve(state: GraphState):
                           num_results_limit=3,
                         
                           attributes=["documents", "embeddings", "metadatas"])
+    retrieved_documents = [doc for sublist in results["documents"] for doc in sublist]
+    print(f"Retrieved Documents: {retrieved_documents}")
 
     retrieved_documents = results['documents']
     retrieved_ids = results['ids']
