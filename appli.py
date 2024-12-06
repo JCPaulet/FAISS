@@ -310,9 +310,9 @@ def retrieve(state: GraphState):
         print(f"An error occurred: {e}")
 
     # Provide default values in case of an error
-    retrieved_documents = []
-    retrieved_ids = []
-    retrieved_metadatas = []
+        retrieved_documents = []
+        retrieved_ids = []
+        retrieved_metadatas = []
 
 # Process unique documents
     unique_documents = {}
