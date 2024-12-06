@@ -272,54 +272,52 @@ def retrieve(state: GraphState):
                         
                           attributes=["documents", "embeddings", "metadatas"])
     retrieved_documents = [doc for sublist in results["documents"] for doc in sublist]
+    retrieved_ids = [doc_id for sublist in results["ids"] for doc_id in sublist]
+    retrieved_metadatas = [metadata for sublist in results["metadatas"] for metadata in sublist]
+
     print(f"Retrieved Documents: {retrieved_documents}")
+    print(f"Retrieved IDs: {retrieved_ids}")
+    print(f"Retrieved Metadatas: {retrieved_metadatas}")
 
-    retrieved_documents = results['documents']
-    retrieved_ids = results['ids']
-    retrieved_metadatas = results['metadatas']
-    unique_documents = set()
-    unique_doc_indices = {}  # To keep track of original indices
+# Process unique documents
+    unique_documents = {}
+    for i, document in enumerate(retrieved_documents):
+        if document not in unique_documents:
+            unique_documents[document] = i
 
-    for i, documents in enumerate(retrieved_documents):
-        for j, document in enumerate(documents):
-            if document not in unique_documents:
-                unique_documents.add(document)
-            unique_doc_indices[document] = (i, j)
+    unique_documents = list(unique_documents.keys())
+    print(f"Unique Documents: {unique_documents}")
 
-    unique_documents = list(unique_documents)
-    print('unique_documents:')
-    print(unique_documents)
+    # Prepare pairs for CrossEncoder
     pairs = []
     metadatas = []
     for doc in unique_documents:
         pairs.append([question, doc])
-        i, j = unique_doc_indices[doc]
-        metadatas.append(retrieved_metadatas[i][j])
-    
-    
-    cross_encoder = CrossEncoder('sentence-transformers/all-mpnet-base-v2')
-   
-# Get the scores for each pair
-    scores = cross_encoder.predict(pairs)
+        i = unique_documents[doc]
+        metadatas.append(results["metadatas"][i])
 
-# Combine scores with their corresponding pairs and metadatas
+    print(f"Pairs for CrossEncoder: {pairs}")
+    print(f"Metadata for CrossEncoder: {metadatas}")
+
+    # Rank documents using CrossEncoder
+    cross_encoder = CrossEncoder('sentence-transformers/all-mpnet-base-v2')
+    scores = cross_encoder.predict(pairs)
     scored_pairs = list(zip(scores, pairs, metadatas))
-    #scored_pairs: List[Tuple[float, any]] = list(zip(scores, pairs, metadatas))
-# Sort the scored_pairs by score in descending order
     scored_pairs_sorted = sorted(scored_pairs, key=lambda x: x[0], reverse=True)
-    
-# Keep only the top 7 pairs
-    top_7_pairs = scored_pairs_sorted[:3]
-    
-   # Create CustomDocument objects
+
+    # Keep the top 3 pairs
+    top_3_pairs = scored_pairs_sorted[:3]
     context = []
-    for score, pair, metadata in top_7_pairs:
+    for score, pair, metadata in top_3_pairs:
         _, document = pair
         custom_doc = CustomDocument(page_content=document, metadata=metadata)
         context.append(custom_doc)
-    
+
+    # Debug final context
+    for doc in context:
+        print(f"Final Document for Grading: {doc.page_content}")
+
     return {"documents": [doc.to_dict() for doc in context], "question": question}
-    
    
 
 # Define the generate function
