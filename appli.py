@@ -232,7 +232,7 @@ class GraphState(TypedDict):
     question: str
     generation: str
     documents: List[dict]
-    retry_count: Optional[int]  # Initialize the retry counter as optional
+    retry_count: int # Initialize the retry counter as optional
     def __repr__(self):
         return self.name
 
