@@ -275,27 +275,27 @@ def retrieve(state: GraphState):
 
     try:
     # Ensure results is a dictionary
-    if not isinstance(results, dict):
-        raise ValueError(f"Expected results to be a dict, but got {type(results)}")
+        if not isinstance(results, dict):
+            raise ValueError(f"Expected results to be a dict, but got {type(results)}")
 
     # Debug the structure of results
-    print(f"Results Keys: {results.keys()}")
-    print(f"Documents: {results.get('documents')}")
-    print(f"IDs: {results.get('ids')}")
-    print(f"Metadatas: {results.get('metadatas')}")
+        print(f"Results Keys: {results.keys()}")
+        print(f"Documents: {results.get('documents')}")
+        print(f"IDs: {results.get('ids')}")
+        print(f"Metadatas: {results.get('metadatas')}")
 
     # Flatten the nested structure if valid
-    retrieved_documents = [doc for sublist in results.get("documents", []) for doc in sublist]
-    retrieved_ids = [doc_id for sublist in results.get("ids", []) for doc_id in sublist]
-    retrieved_metadatas = [metadata for sublist in results.get("metadatas", []) for metadata in sublist]
+        retrieved_documents = [doc for sublist in results.get("documents", []) for doc in sublist]
+        retrieved_ids = [doc_id for sublist in results.get("ids", []) for doc_id in sublist]
+        retrieved_metadatas = [metadata for sublist in results.get("metadatas", []) for metadata in sublist]
 
     # Debug the flattened results
-    print(f"Retrieved Documents: {retrieved_documents}")
-    print(f"Retrieved IDs: {retrieved_ids}")
-    print(f"Retrieved Metadatas: {retrieved_metadatas}")
+        print(f"Retrieved Documents: {retrieved_documents}")
+        print(f"Retrieved IDs: {retrieved_ids}")
+        print(f"Retrieved Metadatas: {retrieved_metadatas}")
 
     # Ensure lengths match
-    assert len(retrieved_documents) == len(retrieved_ids) == len(retrieved_metadatas), "Mismatch in lengths of retrieved data."
+        assert len(retrieved_documents) == len(retrieved_ids) == len(retrieved_metadatas), "Mismatch in lengths of retrieved data."
 
     except Exception as e:
         print(f"An error occurred: {e}")
