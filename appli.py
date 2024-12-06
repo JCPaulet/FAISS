@@ -266,15 +266,15 @@ def retrieve(state: GraphState):
     
     
     results = conn.query(
-                        collection_name=collection_name,
-                         query=queries,
-                          num_results_limit=3,
-                        
-                          attributes=["documents", "embeddings", "metadatas"])
+        collection_name=collection_name,
+        query=queries,
+        num_results_limit=3,
+        attributes=["documents", "embeddings", "metadatas"])
+    
    try:
     # Ensure results is a dictionary
-        if not isinstance(results, dict):
-            raise ValueError(f"Expected results to be a dict, but got {type(results)}")
+       if not isinstance(results, dict):
+           raise ValueError(f"Expected results to be a dict, but got {type(results)}")
 
     # Debug the structure of results
         print(f"Results Keys: {results.keys()}")
