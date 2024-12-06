@@ -271,40 +271,39 @@ def retrieve(state: GraphState):
         num_results_limit=3,
         attributes=["documents", "embeddings", "metadatas"])
     
-   try:
+    try:
     # Ensure results is a dictionary
        if not isinstance(results, dict):
            raise ValueError(f"Expected results to be a dict, but got {type(results)}")
 
     # Debug the structure of results
-        print(f"Results Keys: {results.keys()}")
-        print(f"Documents: {results.get('documents')}")
-        print(f"IDs: {results.get('ids')}")
-        print(f"Metadatas: {results.get('metadatas')}")
+       print(f"Results Keys: {results.keys()}")
+       print(f"Documents: {results.get('documents')}")
+       print(f"IDs: {results.get('ids')}")
+       print(f"Metadatas: {results.get('metadatas')}")
 
     # Initialize variables to ensure they exist even if an error occurs
-        retrieved_documents = []
-        retrieved_ids = []
-        retrieved_metadatas = []
+       retrieved_documents = []
+       retrieved_ids = []
+       retrieved_metadatas = []
 
     # Flatten the nested structure if valid
-        if "documents" in results:
+       if "documents" in results:
             retrieved_documents = [doc for sublist in results["documents"] for doc in sublist]
 
-        if "ids" in results:
+       if "ids" in results:
             retrieved_ids = [doc_id for sublist in results["ids"] for doc_id in sublist]
 
-        if "metadatas" in results:
+       if "metadatas" in results:
             retrieved_metadatas = [metadata for sublist in results["metadatas"] for metadata in sublist]
 
     # Debug the flattened results
-        print(f"Retrieved Documents: {retrieved_documents}")
-        print(f"Retrieved IDs: {retrieved_ids}")
-        print(f"Retrieved Metadatas: {retrieved_metadatas}")
+       print(f"Retrieved Documents: {retrieved_documents}")
+       print(f"Retrieved IDs: {retrieved_ids}")
+       print(f"Retrieved Metadatas: {retrieved_metadatas}")
 
     # Ensure lengths match
-        assert len(retrieved_documents) == len(retrieved_ids) == len(retrieved_metadatas), "Mismatch in lengths of retrieved data."
-
+       assert len(retrieved_documents) == len(retrieved_ids) == len(retrieved_metadatas), "Mismatch in lengths of retrieved data."
     except Exception as e:
     # Handle exceptions and ensure the code doesn't crash
         print(f"An error occurred: {e}")
