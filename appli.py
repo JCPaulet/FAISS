@@ -351,6 +351,10 @@ def grade_documents(state: GraphState):
         if score['score'] == "yes":
             print('grader is positive')
             filtered_docs.append(d)
+        if score['score'] == "no":
+            print('grader says NO!')
+            print(d.page_content)
+            print('*****************')
     return {"documents": [doc.to_dict() for doc in filtered_docs], "question": question}
 
 @traceable
