@@ -334,7 +334,9 @@ def retrieve(state: GraphState):
     print(f"Metadata for CrossEncoder: {metadatas}")
 
     # Rank documents using CrossEncoder
-    cross_encoder = CrossEncoder('sentence-transformers/all-mpnet-base-v2')
+    #cross_encoder = CrossEncoder('sentence-transformers/all-mpnet-base-v2')
+    cross_encoder = CrossEncoder("sentence-transformers/all-MiniLM-L6-v2")
+
     scores = cross_encoder.predict(pairs)
     scored_pairs = list(zip(scores, pairs, metadatas))
     scored_pairs_sorted = sorted(scored_pairs, key=lambda x: x[0], reverse=True)
