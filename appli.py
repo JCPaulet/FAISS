@@ -147,8 +147,6 @@ collection_name = "EPPG_2025_mpnet_embeddings"
 
 
 
-# Connect to Chroma DB
-conn = PersistentClient(path=db_directory)
 
 # List all collections in the database
 collections = conn.list_collections()
