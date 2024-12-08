@@ -144,21 +144,21 @@ conn = st.connection(name="EPPG_2025_mpnet_embeddings",
 collection_name = "EPPG_2025_mpnet_embeddings"
 
 ### test content chtroma db collection
+import chromadb
 
+# Directory for Chroma DB files
+db_directory = '.'
+collection_name = "EPPG_2025_mpnet_embeddings"  # Your target collection name
 
-# Configuration for the Chroma DB connection
-db_directory = '.'  # Path where the Chroma DB files are stored
-collection_name = "EPPG_2025_mpnet_embeddings"  # Your collection name
-
-# Create a client
+# Create a persistent Chroma client
 client = chromadb.PersistentClient(path=db_directory)
 
 # List all collections
 collections = client.list_collections()
-print(f"Available Collections: {[collection['name'] for collection in collections]}")
+print(f"Available Collections: {[collection.name for collection in collections]}")
 
 # Access the specific collection
-if any(collection['name'] == collection_name for collection in collections):
+if any(collection.name == collection_name for collection in collections):
     collection = client.get_collection(name=collection_name)
     print(f"Collection '{collection_name}' exists.")
 
@@ -170,7 +170,7 @@ if any(collection['name'] == collection_name for collection in collections):
     for i, doc in enumerate(items["documents"]):
         print(f"Document {i + 1}: {doc}")
         print(f"Metadata {i + 1}: {items['metadatas'][i]}")
-        print(f"Embedding {i + 1}: {items['embeddings'][i][:5]}...")  # Print a truncated version of embeddings
+        print(f"Embedding {i + 1}: {items['embeddings'][i][:5]}...")  # Truncated embedding
         print("-" * 80)
 
 else:
