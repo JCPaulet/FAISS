@@ -261,17 +261,18 @@ def retrieve(state: GraphState):
 
     # Add the original question to the list of queries
     queries = [question] + queries_list
-
-    
+    print(queries)
+    print("HERE")
     # Query the Chroma collection
     results = conn.query(
            collection_name=collection_name,
             #1 query=queries,
-            query="What is SALTO?",
+            query=["What is SALTO?"],
             num_results_limit=3,
            #1 attributes=["documents", "embeddings", "metadatas"]
             attributes=["documents", "metadatas"]
         )
+    print("THERE")
     print(f"Results: {results}")
         
         # Validate the structure of results
