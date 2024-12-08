@@ -271,28 +271,38 @@ def retrieve(state: GraphState):
             attributes=["documents", "embeddings", "metadatas"]
         )
         print(f"Results: {results}")
-
-        # Validate and debug the structure of results
+        
+        # Validate the structure of results
         documents = results.get("documents", [])
-        if not isinstance(documents, list):
-            print(f"Documents is not a list, type: {type(documents)}")
-            documents = documents.tolist()  # Convert to list if possible
+        embeddings = results.get("embeddings", [])
+        metadatas = results.get("metadatas", [])
 
-        # Check if documents are empty
-        if len(documents) == 0:
+        # Debug the content of the results
+        print(f"Documents: {documents}")
+        print(f"Embeddings: {embeddings}")
+        print(f"Metadatas: {metadatas}")
+
+        # Handle empty results
+        if not documents:
             print("No documents retrieved.")
             raise ValueError("Query returned no documents.")
 
-        # Debug lengths of each result component
+        # Check for length mismatches
+        if len(documents) != len(embeddings) or len(embeddings) != len(metadatas):
+            print(f"Mismatch in lengths: documents={len(documents)}, embeddings={len(embeddings)}, metadatas={len(metadatas)}")
+            raise ValueError("Mismatch in lengths of retrieved data.")
+
+        # Debug lengths
         print(f"Documents Length: {len(documents)}")
-        print(f"Embeddings Length: {len(results.get('embeddings', []))}")
-        print(f"Metadatas Length: {len(results.get('metadatas', []))}")
+        print(f"Embeddings Length: {len(embeddings)}")
+        print(f"Metadatas Length: {len(metadatas)}")
 
     except Exception as e:
         print(f"An error occurred during retrieval: {e}")
         raise
 
     print('results harvested')
+
 
     try:
     # Ensure results is a dictionary
