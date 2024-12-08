@@ -297,7 +297,7 @@ def retrieve(state: GraphState):
         # Debug lengths
     print(f"Documents Length: {len(documents)}")
         #1 print(f"Embeddings Length: {len(embeddings)}")
-        print(f"Metadatas Length: {len(metadatas)}")
+    print(f"Metadatas Length: {len(metadatas)}")
     
       
     print('results harvested')
