@@ -262,30 +262,30 @@ def retrieve(state: GraphState):
     # Add the original question to the list of queries
     queries = [question] + queries_list
 
-    try:
-        # Query the Chroma collection
-        results = conn.query(
-            collection_name=collection_name,
+    
+    # Query the Chroma collection
+    results = conn.query(
+           collection_name=collection_name,
             #1 query=queries,
-            query=["What is SALTO?"],
+            query="What is SALTO?",
             num_results_limit=3,
            #1 attributes=["documents", "embeddings", "metadatas"]
             attributes=["documents", "metadatas"]
         )
-        print(f"Results: {results}")
+    print(f"Results: {results}")
         
         # Validate the structure of results
-        documents = results.get("documents", [])
+    documents = results.get("documents", [])
         #1embeddings = results.get("embeddings", [])
-        metadatas = results.get("metadatas", [])
+    metadatas = results.get("metadatas", [])
 
         # Debug the content of the results
-        print(f"Documents: {documents}")
+    print(f"Documents: {documents}")
         #1print(f"Embeddings: {embeddings}")
-        print(f"Metadatas: {metadatas}")
+    print(f"Metadatas: {metadatas}")
 
         # Handle empty results
-        if not documents:
+    if not documents:
             print("No documents retrieved.")
             raise ValueError("Query returned no documents.")
 
@@ -295,14 +295,11 @@ def retrieve(state: GraphState):
             #1 raise ValueError("Mismatch in lengths of retrieved data.")
 
         # Debug lengths
-        print(f"Documents Length: {len(documents)}")
+    print(f"Documents Length: {len(documents)}")
         #1 print(f"Embeddings Length: {len(embeddings)}")
         print(f"Metadatas Length: {len(metadatas)}")
-
-    except Exception as e:
-        print(f"An error occurred during retrieval: {e}")
-        raise
-
+    
+      
     print('results harvested')
 
 
