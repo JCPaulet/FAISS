@@ -33,6 +33,6 @@ langchain_openai
 #faiss
 #langchain.embeddings.base
 #langchain_experimental.text_splitter
-chromadb.utils 
+#chromadb.utils 
 streamlit_chromadb_connection
 tornado>=6.0
