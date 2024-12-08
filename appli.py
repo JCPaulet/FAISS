@@ -270,10 +270,10 @@ def retrieve(state: GraphState):
             query=["What is SALTO?"],
             num_results_limit=3,
            #1 attributes=["documents", "embeddings", "metadatas"]
-           #2 attributes=["documents", "metadatas"]
-            attributes=["documents"]
+            attributes=["documents", "metadatas"]
+            
         )
-    st.dataframe(results)
+    results=st.dataframe(results)
     print("THERE")
     print(f"Results: {results}")
         
