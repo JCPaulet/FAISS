@@ -246,30 +246,46 @@ def retrieve(state: GraphState):
     print('retrieve')
     question = state["question"]
     print(question)
-    multiple_queries=multiply_query.invoke({"query": question})
+
+    # Generate multiple queries
+    multiple_queries = multiply_query.invoke({"query": question})
     print('query multiplied')
-    # Split the string into a list using the '-' as the delimiter
+
+    # Process the query into a list
     queries_list = multiple_queries.split('\n')
     print('queries splitted')
-    # Remove any empty strings that may result from the split
+
+    # Clean the queries
     queries_list = [sentence.replace('-', '').strip() for sentence in queries_list if sentence.strip()]
     print(queries_list)
 
+    # Add the original question to the list of queries
     queries = [question] + queries_list
 
-   # from chromadb.api.types import QueryResult
-   # results = chroma_collection.query(
-   #     query_texts=queries,
-   #     n_results=7,
-   #     include=["documents", "embeddings", "metadatas"]
-#)
-    
-    
-    results = conn.query(
-        collection_name=collection_name,
-        query=queries,
-        num_results_limit=3,
-        attributes=["documents", "embeddings", "metadatas"])
+    try:
+        # Query the Chroma collection
+        results = conn.query(
+            collection_name=collection_name,
+            query=queries,
+            num_results_limit=3,
+            attributes=["documents", "embeddings", "metadatas"]
+        )
+        print(f"Results: {results}")
+
+        # Check if results are empty
+        if not results.get("documents"):
+            print("No documents retrieved.")
+            raise ValueError("Query returned no documents.")
+
+        # Debug lengths of each result component
+        print(f"Documents Length: {len(results['documents'])}")
+        print(f"Embeddings Length: {len(results['embeddings'])}")
+        print(f"Metadatas Length: {len(results['metadatas'])}")
+
+    except Exception as e:
+        print(f"An error occurred during retrieval: {e}")
+        raise
+
     print('results harvested')
     try:
     # Ensure results is a dictionary
