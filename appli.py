@@ -247,10 +247,10 @@ def retrieve(state: GraphState):
     question = state["question"]
     print(question)
     multiple_queries=multiply_query.invoke({"query": question})
-
+    print('query multiplied')
     # Split the string into a list using the '-' as the delimiter
     queries_list = multiple_queries.split('\n')
-
+    print('queries splitted')
     # Remove any empty strings that may result from the split
     queries_list = [sentence.replace('-', '').strip() for sentence in queries_list if sentence.strip()]
     print(queries_list)
@@ -270,7 +270,7 @@ def retrieve(state: GraphState):
         query=queries,
         num_results_limit=3,
         attributes=["documents", "embeddings", "metadatas"])
-    
+    print('results harvested')
     try:
     # Ensure results is a dictionary
        if not isinstance(results, dict):
