@@ -273,6 +273,7 @@ def retrieve(state: GraphState):
            #2 attributes=["documents", "metadatas"]
             attributes=["documents"]
         )
+    st.dataframe(results)
     print("THERE")
     print(f"Results: {results}")
         
