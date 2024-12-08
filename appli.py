@@ -233,7 +233,7 @@ class GraphState(TypedDict):
     question: str
     generation: str
     documents: List[dict]
-    retry_count: int # Initialize the retry counter as optional
+    #retry_count: int # Initialize the retry counter as optional
     def __repr__(self):
         return self.name
 
@@ -369,9 +369,9 @@ def generate(state: GraphState):
     #print(context)
     generation = rag_chain.invoke({"context": context, "question": question})
     return {"documents": [doc.to_dict() for doc in documents], "question": question, "generation": generation}
-    state["retry_count"] = state.get("retry_count", 0) + 1
-    if state["retry_count"] > 3:  # Example: Max 3 retries
-        return END
+    #state["retry_count"] = state.get("retry_count", 0) + 1
+    #if state["retry_count"] > 3:  # Example: Max 3 retries
+    #    return END
     # Existing transform logic
 
 # Define the grade_documents function
