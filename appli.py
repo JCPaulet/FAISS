@@ -272,21 +272,28 @@ def retrieve(state: GraphState):
         )
         print(f"Results: {results}")
 
-        # Check if results are empty
-        if not results.get("documents"):
+        # Validate and debug the structure of results
+        documents = results.get("documents", [])
+        if not isinstance(documents, list):
+            print(f"Documents is not a list, type: {type(documents)}")
+            documents = documents.tolist()  # Convert to list if possible
+
+        # Check if documents are empty
+        if len(documents) == 0:
             print("No documents retrieved.")
             raise ValueError("Query returned no documents.")
 
         # Debug lengths of each result component
-        print(f"Documents Length: {len(results['documents'])}")
-        print(f"Embeddings Length: {len(results['embeddings'])}")
-        print(f"Metadatas Length: {len(results['metadatas'])}")
+        print(f"Documents Length: {len(documents)}")
+        print(f"Embeddings Length: {len(results.get('embeddings', []))}")
+        print(f"Metadatas Length: {len(results.get('metadatas', []))}")
 
     except Exception as e:
         print(f"An error occurred during retrieval: {e}")
         raise
 
     print('results harvested')
+
     try:
     # Ensure results is a dictionary
        if not isinstance(results, dict):
