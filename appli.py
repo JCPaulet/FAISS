@@ -146,7 +146,14 @@ collection_name = "EPPG_2025_mpnet_embeddings"
 ### test content chtroma db collection
 
 
+from chromadb.utils import PersistentClient
 
+# Configuration for the Chroma DB connection
+db_directory = '.'  # Path where the Chroma DB files are stored
+collection_name = "EPPG_2025_mpnet_embeddings"  # Your collection name
+
+# Connect to Chroma DB
+conn = PersistentClient(path=db_directory)
 
 # List all collections in the database
 collections = conn.list_collections()
