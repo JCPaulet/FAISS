@@ -169,12 +169,7 @@ if any(collection.name == collection_name for collection in collections):
     # Inspect the content
     for i, doc in enumerate(items["documents"]):
         print(f"Document {i + 1}: {doc}")
-        print(f"Metadata {i + 1}: {items['metadatas'][i]}")
-        print(f"Embedding {i + 1}: {items['embeddings'][i][:5]}...")  # Truncated embedding
-        print("-" * 80)
-
-else:
-    print(f"Collection '{collection_name}' does not exist.")
+        print(f"Metadata
 
 
 multiply_query_prompt = ChatPromptTemplate(
