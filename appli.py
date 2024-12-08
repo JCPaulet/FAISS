@@ -167,10 +167,14 @@ if any(collection.name == collection_name for collection in collections):
     print(f"Number of Items in '{collection_name}': {len(items['documents'])}")
 
     # Inspect the content
-    for i, doc in enumerate(items["documents"]):
-        print(f"Document {i + 1}: {doc}")
-        print(f"Metadata
-
+    print(f"Metadata {i + 1}: {items['metadatas'][i]}")
+        if items["embeddings"] is not None:
+            print(f"Embedding {i + 1}: {items['embeddings'][i][:5]}...")  # Truncated embedding
+        else:
+            print(f"Embedding {i + 1}: No embedding found")
+        print("-" * 80)
+  else:
+    print(f"Collection '{collection_name}' does not exist.")
 
 multiply_query_prompt = ChatPromptTemplate(
         input_variables=['query'],
