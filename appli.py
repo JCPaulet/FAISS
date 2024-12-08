@@ -146,22 +146,20 @@ collection_name = "EPPG_2025_mpnet_embeddings"
 ### test content chtroma db collection
 
 
-from chromadb.utils import PersistentClient
-
 # Configuration for the Chroma DB connection
 db_directory = '.'  # Path where the Chroma DB files are stored
 collection_name = "EPPG_2025_mpnet_embeddings"  # Your collection name
 
-# Connect to Chroma DB
-conn = PersistentClient(path=db_directory)
+# Create a client
+client = chromadb.PersistentClient(path=db_directory)
 
-# List all collections in the database
-collections = conn.list_collections()
-print(f"Available Collections: {collections}")
+# List all collections
+collections = client.list_collections()
+print(f"Available Collections: {[collection['name'] for collection in collections]}")
 
 # Access the specific collection
-if collection_name in collections:
-    collection = conn.get_collection(name=collection_name)
+if any(collection['name'] == collection_name for collection in collections):
+    collection = client.get_collection(name=collection_name)
     print(f"Collection '{collection_name}' exists.")
 
     # Fetch all items in the collection
