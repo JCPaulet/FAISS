@@ -143,6 +143,35 @@ conn = st.connection(name="EPPG_2025_mpnet_embeddings",
 
 collection_name = "EPPG_2025_mpnet_embeddings"
 
+### test content chtroma db collection
+
+from chromadb.utils import PersistentClient
+
+# Connect to Chroma DB
+conn = PersistentClient(path=db_directory)
+
+# List all collections in the database
+collections = conn.list_collections()
+print(f"Available Collections: {collections}")
+
+# Access the specific collection
+if collection_name in collections:
+    collection = conn.get_collection(name=collection_name)
+    print(f"Collection '{collection_name}' exists.")
+
+    # Fetch all items in the collection
+    items = collection.get()
+    print(f"Number of Items in '{collection_name}': {len(items['documents'])}")
+
+    # Inspect the content
+    for i, doc in enumerate(items["documents"]):
+        print(f"Document {i + 1}: {doc}")
+        print(f"Metadata {i + 1}: {items['metadatas'][i]}")
+        print(f"Embedding {i + 1}: {items['embeddings'][i][:5]}...")  # Print a truncated version of embeddings
+        print("-" * 80)
+
+else:
+    print(f"Collection '{collection_name}' does not exist.")
 
 
 multiply_query_prompt = ChatPromptTemplate(
@@ -273,7 +302,7 @@ def retrieve(state: GraphState):
             attributes=["documents", "metadatas"]
             
         )
-    results=st.dataframe(results)
+    st.dataframe(results)
     print("THERE")
     print(f"Results: {results}")
         
