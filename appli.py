@@ -36,6 +36,8 @@ import chromadb
 
 from pprint import pprint
 import SentenceTransformerEmbeddingFunction as embedding_functions #importing the code of the class "SentenceTransformerEmbeddingFunction" which I saved in the same folder as this file.
+
+
 import os
 from uuid import uuid4
 #from langchain.document_loaders import PyPDFLoader
@@ -300,11 +302,10 @@ def retrieve(state: GraphState):
     # Query the Chroma collection
     results = conn.query(
            collection_name=collection_name,
-            #1 query=queries,
-            query=["What is SALTO?"],
+            query=queries,
             num_results_limit=3,
-           #1 attributes=["documents", "embeddings", "metadatas"]
-            attributes=["documents", "metadatas"]
+            attributes=["documents", "embeddings", "metadatas"]
+           
             
         )
     st.dataframe(results)
