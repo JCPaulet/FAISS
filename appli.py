@@ -263,14 +263,7 @@ def retrieve(state: GraphState):
     if not isinstance(results, pd.DataFrame):
         raise ValueError("Expected results to be a pandas DataFrame.")
 
-    # Extract columns from the DataFrame
-    documents_column = results["documents"].iloc[0]  # Extract the first row (list of documents)
-    ids_column = results["ids"].iloc[0]  # Extract the first row (list of IDs)
-    metadatas_column = results["metadatas"].iloc[0]  # Extract the first row (list of metadatas)
-
-    print(f"Retrieved Documents: {documents_column}")
-    print(f"Retrieved IDs: {ids_column}")
-    print(f"Retrieved Metadatas: {metadatas_column}")
+    
 
     # Ensure lengths match
     if not len(documents_column) == len(ids_column) == len(metadatas_column):
