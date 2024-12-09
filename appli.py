@@ -165,7 +165,8 @@ if any(collection.name == collection_name for collection in collections):
     print(f"Collection '{collection_name}' exists.")
 
     # Fetch all items in the collection
-    items = collection.get()
+    items = client.get_collection_data(collection_name)
+    st.dataframe(items)
     print(f"Number of Items in '{collection_name}': {len(items['documents'])}")
 
     # Inspect the content
