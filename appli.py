@@ -263,8 +263,11 @@ def retrieve(state: GraphState):
     if not isinstance(results, pd.DataFrame):
         raise ValueError("Expected results to be a pandas DataFrame.")
  # Extract columns from the DataFrame
+    print("doc col")
     documents_column = results["documents"]
+    print("id col")
     ids_column = results["ids"]
+    print("metadata col")
     metadatas_column = results["metadatas"]
 
     
