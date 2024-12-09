@@ -258,8 +258,7 @@ def retrieve(state: GraphState):
 
     # Clean the queries
     queries_list = [sentence.replace('-', '').strip() for sentence in queries_list if sentence.strip()]
-    print(queries_list)
-
+    
     # Add the original question to the list of queries
     queries = [question] + queries_list
     print(queries)
@@ -273,7 +272,7 @@ def retrieve(state: GraphState):
            
             
         )
-    #st.dataframe(results)
+    st.dataframe(results)
     print("THERE")
     
       
