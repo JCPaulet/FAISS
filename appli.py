@@ -256,7 +256,7 @@ def retrieve(state: GraphState):
         collection_name=collection_name,
         query=queries,
         num_results_limit=3,
-        attributes=["documents", "metadatas"]
+        attributes=["documents", "ids", "metadatas"]
     )
 
     # Ensure results is a DataFrame
@@ -269,36 +269,39 @@ def retrieve(state: GraphState):
     metadatas_column = results["metadatas"].iloc[0]  # Extract the first row (list of metadatas)
 
     print(f"Retrieved Documents: {documents_column}")
-    #print(f"Retrieved IDs: {ids_column}")
+    print(f"Retrieved IDs: {ids_column}")
     print(f"Retrieved Metadatas: {metadatas_column}")
 
     # Ensure lengths match
-    #if not (len(documents_column) == len(ids_column) == len(metadatas_column)):
-     #   raise ValueError("Mismatch in lengths of retrieved data.")
+    if not len(documents_column) == len(ids_column) == len(metadatas_column):
+        raise ValueError("Mismatch in lengths of retrieved data.")
 
     # Process unique documents
     unique_documents = {}
     for i, document in enumerate(documents_column):
+        print(f"Processing Document: {document}, Index: {i}")
         if document not in unique_documents:
             unique_documents[document] = {
                 "id": ids_column[i],
                 "metadata": metadatas_column[i]
             }
 
-    for i, document in enumerate(documents_column):
-        print(f"Processing Document: {document}, Index: {i}")
-        print(f"IDs Column Type: {type(ids_column)}, Content: {ids_column}")
-        print(f"Metadatas Column Type: {type(metadatas_column)}, Content: {metadatas_column}")
+    # Convert unique documents back to a list
+    unique_documents_list = list(unique_documents.keys())
+    print(f"Unique Documents: {unique_documents_list}")
 
-    if document not in unique_documents:
-        unique_documents[document] = {
-            "id": ids_column[i],  # Ensure ids_column is a list
-            "metadata": metadatas_column[i]  # Ensure metadatas_column is a list
-        }
+    # Prepare pairs for CrossEncoder
+    pairs = []
+    metadatas = []
+    for doc in unique_documents_list:
+        pairs.append([question, doc])
+        metadata = unique_documents[doc]["metadata"]  # Access metadata directly
+        metadatas.append(metadata)
 
+    print(f"Pairs for CrossEncoder: {pairs}")
+    print(f"Metadata for CrossEncoder: {metadatas}")
 
     # Rank documents using CrossEncoder
-    #cross_encoder = CrossEncoder('sentence-transformers/all-mpnet-base-v2')
     cross_encoder = CrossEncoder("sentence-transformers/all-MiniLM-L6-v2")
 
     scores = cross_encoder.predict(pairs)
@@ -318,7 +321,6 @@ def retrieve(state: GraphState):
         print(f"Final Document for Grading: {doc.page_content}")
 
     return {"documents": [doc.to_dict() for doc in context], "question": question}
-   
 
 # Define the generate function
 @traceable
