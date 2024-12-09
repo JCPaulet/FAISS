@@ -308,7 +308,7 @@ def retrieve(state: GraphState):
            
             
         )
-    st.dataframe(results)
+    #st.dataframe(results)
     print("THERE")
     print(f"Results: {results}")
         
