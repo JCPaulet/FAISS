@@ -274,58 +274,62 @@ def retrieve(state: GraphState):
      )
     #print('Results Harvested:', results)
 
-# Debug the output
-    
-    if isinstance(results, pd.DataFrame):
-        # Access the columns correctly
-        documents = results["documents"].iloc[0]  # Extract first row's documents
-        embeddings = results["embeddings"].iloc[0]  # Extract first row's embeddings
-        metadatas = results["metadatas"].iloc[0]  # Extract first row's metadatas
+   def retrieve(state: GraphState):
+    print('retrieve')
+    question = state["question"]
+    print(f"Question: {question}")
 
-        # Process the retrieved data
-        print(f"Documents: {documents}")
-        print(f"Embeddings: {embeddings}")
-        print(f"Metadatas: {metadatas}")
+    # Example query (replace this with your actual query logic)
+    queries = [question]
 
-        # Iterate over documents if they are lists
-        for i, doc in enumerate(documents):
-            print(f"Document {i + 1}: {doc}")
-            print(f"Metadata {i + 1}: {metadatas[i]}")
-            if embeddings:
-                print(f"Embedding {i + 1}: {embeddings[i][:5]}...")  # Print truncated embedding
-            else:
-                print(f"Embedding {i + 1}: None")
-            print("-" * 80)
+    # Query the Chroma collection
+    results = conn.query(
+        collection_name=collection_name,
+        query=queries,
+        num_results_limit=3,
+        attributes=["documents", "ids", "metadatas"]
+    )
 
-    else:
-        print("Unexpected results format. Please check the query output.")
+    # Ensure results is a DataFrame
+    if not isinstance(results, pd.DataFrame):
+        raise ValueError("Expected results to be a pandas DataFrame.")
 
+    # Extract columns from the DataFrame
+    documents_column = results["documents"].iloc[0]  # Extract the first row (list of documents)
+    ids_column = results["ids"].iloc[0]  # Extract the first row (list of ids)
+    metadatas_column = results["metadatas"].iloc[0]  # Extract the first row (list of metadatas)
 
-    retrieved_documents = results["documents"]
-    retrieved_ids = results["ids"] 
-    retrieved_metadatas = results["metadatas"] 
-
-    # Debug the flattened results
-    #print(f"Retrieved Documents: {retrieved_documents}")
-    #print(f"Retrieved IDs: {retrieved_ids}")
-    #print(f"Retrieved Metadatas: {retrieved_metadatas}")
+    print(f"Retrieved Documents: {documents_column}")
+    print(f"Retrieved IDs: {ids_column}")
+    print(f"Retrieved Metadatas: {metadatas_column}")
 
     # Ensure lengths match
-    #assert len(retrieved_documents) == len(retrieved_ids) == len(retrieved_metadatas), "Mismatch in lengths of retrieved data."
-    
-# Process unique documents
-    unique_documents = {}
-    for i, document in enumerate(retrieved_documents):
-        if document not in unique_documents:
-            unique_documents[document] = i
+    if not (len(documents_column) == len(ids_column) == len(metadatas_column)):
+        raise ValueError("Mismatch in lengths of retrieved data.")
 
-    unique_documents = list(unique_documents.keys())
-    print(f"Unique Documents: {unique_documents}")
+    # Process unique documents
+    unique_documents = {}
+    for i, document in enumerate(documents_column):
+        if document not in unique_documents:
+            unique_documents[document] = {
+                "id": ids_column[i],
+                "metadata": metadatas_column[i]
+            }
+
+    # Convert unique documents back to a list
+    unique_documents_list = list(unique_documents.keys())
+    print(f"Unique Documents: {unique_documents_list}")
+
+    # Optionally return structured data
+    return {
+        "unique_documents": unique_documents_list,
+        "document_metadata": unique_documents,
+    }
 
     # Prepare pairs for CrossEncoder
     pairs = []
     metadatas = []
-    for doc in unique_documents:
+    for doc in unique_documents_list:
         pairs.append([question, doc])
         i = unique_documents[doc]
         metadatas.append(results["metadatas"][i])
