@@ -285,22 +285,17 @@ def retrieve(state: GraphState):
                 "metadata": metadatas_column[i]
             }
 
-    # Convert unique documents back to a list
-    unique_documents_list = list(unique_documents.keys())
-    print(f"Unique Documents: {unique_documents_list}")
+    for i, document in enumerate(documents_column):
+        print(f"Processing Document: {document}, Index: {i}")
+        print(f"IDs Column Type: {type(ids_column)}, Content: {ids_column}")
+        print(f"Metadatas Column Type: {type(metadatas_column)}, Content: {metadatas_column}")
 
-    
+    if document not in unique_documents:
+        unique_documents[document] = {
+            "id": ids_column[i],  # Ensure ids_column is a list
+            "metadata": metadatas_column[i]  # Ensure metadatas_column is a list
+        }
 
-    # Prepare pairs for CrossEncoder
-    pairs = []
-    metadatas = []
-    for doc in unique_documents_list:
-        pairs.append([question, doc])
-        i = unique_documents_list[doc]
-        metadatas.append(results["metadatas"][i])
-
-    print(f"Pairs for CrossEncoder: {pairs}")
-    print(f"Metadata for CrossEncoder: {metadatas}")
 
     # Rank documents using CrossEncoder
     #cross_encoder = CrossEncoder('sentence-transformers/all-mpnet-base-v2')
