@@ -161,7 +161,7 @@ print(f"Available Collections: {[collection.name for collection in collections]}
 
 # Access the specific collection
 if any(collection.name == collection_name for collection in collections):
-    collection = client.get_collection(name=collection_name,attributes= ["documents", "embeddings","metadatas"])
+    collection = client.get_collection(name=collection_name)
     print(f"Collection '{collection_name}' exists.")
 
     # Fetch all items in the collection
