@@ -290,9 +290,9 @@ def retrieve(state: GraphState):
 
      
 
-    retrieved_documents = results["documents"]
-    retrieved_ids = results["ids"] 
-    retrieved_metadatas = results["metadatas"] 
+    #retrieved_documents = results["documents"]
+    #retrieved_ids = results["ids"] 
+    #retrieved_metadatas = results["metadatas"] 
 
     # Debug the flattened results
     #print(f"Retrieved Documents: {retrieved_documents}")
