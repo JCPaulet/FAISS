@@ -289,11 +289,7 @@ def retrieve(state: GraphState):
     unique_documents_list = list(unique_documents.keys())
     print(f"Unique Documents: {unique_documents_list}")
 
-    # Optionally return structured data
-    return {
-        "unique_documents": unique_documents_list,
-        "document_metadata": unique_documents,
-    }
+    
 
     # Prepare pairs for CrossEncoder
     pairs = []
