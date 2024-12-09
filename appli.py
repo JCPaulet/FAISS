@@ -166,7 +166,7 @@ if any(collection.name == collection_name for collection in collections):
     print(f"Collection '{collection_name}' exists.")
 
     # Fetch all items in the collection
-    items = collection.get( include=["documents", "embeddings","metadatas"])
+    items = collection.get()
     #pd.DataFrame(items)
     print(f"Number of Items in '{collection_name}': {len(items['documents'])}")
 
