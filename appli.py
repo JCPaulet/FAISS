@@ -256,10 +256,10 @@ def retrieve(state: GraphState):
         collection_name=collection_name,
         query=queries,
         num_results_limit=3,
-        attributes=["documents", "metadatas"]  # Note: 'ids' is implicitly included in the DataFrame
+        attributes=["documents","embeddings", "metadatas"]  # Note: 'ids' is implicitly included in the DataFrame
     )
 
-)
+
     # Ensure results is a DataFrame
     if not isinstance(results, pd.DataFrame):
         raise ValueError("Expected results to be a pandas DataFrame.")
