@@ -1,6 +1,6 @@
 
 # Streamlit updated to a version that supports click >= 8.0
-streamlit>=1.10.0
+streamlit
 click==8.1.7
 # Ensure chromadb and streamlit-chromadb-connection are compatible
 requests
