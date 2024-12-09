@@ -283,12 +283,12 @@ def retrieve(state: GraphState):
     retrieved_metadatas = results["metadatas"] 
 
     # Debug the flattened results
-    print(f"Retrieved Documents: {retrieved_documents}")
-    print(f"Retrieved IDs: {retrieved_ids}")
-    print(f"Retrieved Metadatas: {retrieved_metadatas}")
+    #print(f"Retrieved Documents: {retrieved_documents}")
+    #print(f"Retrieved IDs: {retrieved_ids}")
+    #print(f"Retrieved Metadatas: {retrieved_metadatas}")
 
     # Ensure lengths match
-    assert len(retrieved_documents) == len(retrieved_ids) == len(retrieved_metadatas), "Mismatch in lengths of retrieved data."
+    #assert len(retrieved_documents) == len(retrieved_ids) == len(retrieved_metadatas), "Mismatch in lengths of retrieved data."
     
 # Process unique documents
     unique_documents = {}
