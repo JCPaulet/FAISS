@@ -264,11 +264,11 @@ def retrieve(state: GraphState):
         raise ValueError("Expected results to be a pandas DataFrame.")
  # Extract columns from the DataFrame
     print("doc col")
-    documents_column = results["documents"]
+    documents_column = results["documents"].iloc[0]
     print("id col")
-    ids_column = results["ids"]
+    ids_column = results["ids"].iloc[0]
     print("metadata col")
-    metadatas_column = results["metadatas"]
+    metadatas_column = results["metadatas"].iloc[0]
 
     
 
