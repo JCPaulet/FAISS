@@ -256,7 +256,7 @@ def retrieve(state: GraphState):
         collection_name=collection_name,
         query=queries,
         num_results_limit=3,
-        attributes=["documents", "ids", "metadatas"]
+        attributes=["documents", "metadatas"]  # Note: 'ids' is implicitly included in the DataFrame
     )
 
     # Ensure results is a DataFrame
@@ -265,7 +265,7 @@ def retrieve(state: GraphState):
 
     # Extract columns from the DataFrame
     documents_column = results["documents"].iloc[0]  # Extract the first row (list of documents)
-    ids_column = results["ids"].iloc[0]  # Extract the first row (list of ids)
+    ids_column = results["ids"].iloc[0]  # Extract the first row (list of IDs)
     metadatas_column = results["metadatas"].iloc[0]  # Extract the first row (list of metadatas)
 
     print(f"Retrieved Documents: {documents_column}")
@@ -321,6 +321,7 @@ def retrieve(state: GraphState):
         print(f"Final Document for Grading: {doc.page_content}")
 
     return {"documents": [doc.to_dict() for doc in context], "question": question}
+
 
 # Define the generate function
 @traceable
