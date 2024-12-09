@@ -254,8 +254,8 @@ def retrieve(state: GraphState):
     # Query the Chroma collection
     results = conn.query(
         collection_name=collection_name,
-        #query=queries,
-        query="What is SALTO?",
+        query=queries,
+       
         num_results_limit=3,
         attributes=["documents","embeddings", "metadatas"]  # Note: 'ids' is implicitly included in the DataFrame
     )
