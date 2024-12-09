@@ -246,37 +246,6 @@ from sentence_transformers import CrossEncoder
 def retrieve(state: GraphState):
     print('retrieve')
     question = state["question"]
-    print(question)
-
-    # Generate multiple queries
-    multiple_queries = multiply_query.invoke({"query": question})
-    print('query multiplied')
-
-    # Process the query into a list
-    queries_list = multiple_queries.split('\n')
-    print('queries splitted')
-
-    # Clean the queries
-    queries_list = [sentence.replace('-', '').strip() for sentence in queries_list if sentence.strip()]
-    
-    # Add the original question to the list of queries
-    #queries = [question] + queries_list
-    queries='What is SALTO?'
-    print(queries)
-    print("do conn.query")
-    
-    # Query the Chroma collection
-    results = conn.query(
-        collection_name=collection_name,
-        query=queries,
-        num_results_limit=3,
-        attributes=["documents", "embeddings", "metadatas"]
-     )
-    #print('Results Harvested:', results)
-
-   def retrieve(state: GraphState):
-    print('retrieve')
-    question = state["question"]
     print(f"Question: {question}")
 
     # Example query (replace this with your actual query logic)
@@ -331,7 +300,7 @@ def retrieve(state: GraphState):
     metadatas = []
     for doc in unique_documents_list:
         pairs.append([question, doc])
-        i = unique_documents[doc]
+        i = unique_documents_list[doc]
         metadatas.append(results["metadatas"][i])
 
     print(f"Pairs for CrossEncoder: {pairs}")
