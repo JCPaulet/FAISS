@@ -139,12 +139,12 @@ configuration = {
 
 #try:
    #st.write("Connecting to Chroma DB...")
-conn = st.connection(name="EPPG_2025_mpnet_embeddings",
+conn = st.connection(name="EPPG_2025_lm_v6_mini_embeddings",
                          type=ChromadbConnection,
                       
                          **configuration)
 
-collection_name = "EPPG_2025_mpnet_embeddings"
+collection_name = "EPPG_2025_lm_v6_mini_embeddings"
 
 multiply_query_prompt = ChatPromptTemplate(
         input_variables=['query'],
@@ -256,7 +256,7 @@ def retrieve(state: GraphState):
         collection_name=collection_name,
         query=queries,
         num_results_limit=3,
-        attributes=["documents","embeddings", "metadatas"]  # Note: 'ids' is implicitly included in the DataFrame
+        attributes=["documents", "metadatas"]  # Note: 'ids' is implicitly included in the DataFrame
     )
 
     # Ensure results is a DataFrame
