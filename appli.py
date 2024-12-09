@@ -273,8 +273,8 @@ def retrieve(state: GraphState):
     
 
     # Ensure lengths match
-    if not len(documents_column) == len(ids_column) == len(metadatas_column):
-        raise ValueError("Mismatch in lengths of retrieved data.")
+    #if not len(documents_column) == len(ids_column) == len(metadatas_column):
+     #   raise ValueError("Mismatch in lengths of retrieved data.")
 
     # Process unique documents
     unique_documents = {}
