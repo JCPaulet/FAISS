@@ -275,32 +275,6 @@ def retrieve(state: GraphState):
         )
     #st.dataframe(results)
     print("THERE")
-    print(f"Results: {results}")
-        
-        # Validate the structure of results
-    documents = results.get("documents", [])
-    embeddings = results.get("embeddings", [])
-    metadatas = results.get("metadatas", [])
-
-        # Debug the content of the results
-    print(f"Documents: {documents}")
-    print(f"Embeddings: {embeddings}")
-    print(f"Metadatas: {metadatas}")
-
-        # Handle empty results
-    if not documents:
-            print("No documents retrieved.")
-            raise ValueError("Query returned no documents.")
-
-        # Check for length mismatches
-        #1 if len(documents) != len(embeddings) or len(embeddings) != len(metadatas):
-           #1 print(f"Mismatch in lengths: documents={len(documents)}, embeddings={len(embeddings)}, metadatas={len(metadatas)}")
-            #1 raise ValueError("Mismatch in lengths of retrieved data.")
-
-        # Debug lengths
-    #print(f"Documents Length: {len(documents)}")
-    #print(f"Embeddings Length: {len(embeddings)}")
-    #print(f"Metadatas Length: {len(metadatas)}")
     
       
     print('results harvested')
