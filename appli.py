@@ -166,7 +166,7 @@ if any(collection.name == collection_name for collection in collections):
 
     # Fetch all items in the collection
     items = collection.get( include=["documents", "embeddings","metadatas"])
-    st.dataframe(items)
+    #st.dataframe(items)
     print(f"Number of Items in '{collection_name}': {len(items['documents'])}")
 
     # Inspect the content
