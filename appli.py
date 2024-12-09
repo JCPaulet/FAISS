@@ -167,14 +167,14 @@ if any(collection.name == collection_name for collection in collections):
 
     # Fetch all items in the collection
     items = collection.get( include=["documents", "embeddings","metadatas"])
-    pd.DataFrame(items)
+    #pd.DataFrame(items)
     print(f"Number of Items in '{collection_name}': {len(items['documents'])}")
 
     # Inspect the content
     
     print(f"Document {52}: {items['documents'][52]}")
     print(f"Metadata {52}: {items['embeddings'][52]}")
-    print(f"Metadata {52}: {items['metadatas'][52]}")
+    #print(f"Metadata {52}: {items['metadatas'][52]}")
     
     print("-" * 80)
 
