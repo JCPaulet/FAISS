@@ -165,7 +165,7 @@ if any(collection.name == collection_name for collection in collections):
     print(f"Collection '{collection_name}' exists.")
 
     # Fetch all items in the collection
-    items = client.get_collection_data(collection_name)
+    items = collection.get()
     st.dataframe(items)
     print(f"Number of Items in '{collection_name}': {len(items['documents'])}")
 
@@ -173,7 +173,7 @@ if any(collection.name == collection_name for collection in collections):
     
     print(f"Document {52}: {items['documents'][52]}")
     print(f"Metadata {52}: {items['embeddings'][52]}")
-    print(f"Metadata {52}: {items['metadatas'][52]}")
+    #print(f"Metadata {52}: {items['metadatas'][52]}")
     
     print("-" * 80)
 
