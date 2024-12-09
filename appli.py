@@ -172,10 +172,7 @@ if any(collection.name == collection_name for collection in collections):
     
     print(f"Document {52}: {items['documents'][52]}")
     print(f"Metadata {52}: {items['metadatas'][52]}")
-    if items["embeddings"][52] is not None:
-            print(f"Embedding {52}: {items['embeddings'][52][:5]}...")  # Truncated embedding
-    else:
-            print(f"Embedding {52}: No embedding found")
+    print(f"Embeddings {52}: {items['embeddings'][52]}")
     print("-" * 80)
 
 else:
