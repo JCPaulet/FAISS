@@ -274,19 +274,32 @@ def retrieve(state: GraphState):
      )
     #print('Results Harvested:', results)
 
-    # Validate results structure
-    if not isinstance(results, dict):
-        raise ValueError("Results are not in the expected dictionary format.")
+# Debug the output
+    print(f"Type of Results: {type(results)}")
+    print(f"Content of Results: {results}")
 
-    # Extract documents
-    retrieved_documents = results.get("documents", [])
-    if not isinstance(retrieved_documents, list):
-        raise ValueError("Retrieved documents are not a list.")
+     # Handle different result types
+    if results is None:
+        raise ValueError("Query returned no results. Please check the query and collection configuration.")
+    elif isinstance(results, dict):
+        # Process results as a dictionary
+        retrieved_documents = results.get("documents", [])
+        if not isinstance(retrieved_documents, list):
+            raise ValueError("Retrieved documents are not a list.")
+        print(f"Retrieved Documents: {retrieved_documents}")
+    elif isinstance(results, list):
+        # Process results as a list
+        print(f"Number of Results: {len(results)}")
+        for result in results:
+            print(f"Result Content: {result}")
+    else:
+        # Process custom object
+        print(f"Results Attributes: {dir(results)}")
+        if hasattr(results, "documents"):
+            print(f"Documents: {results.documents}")
+        else:
+            raise ValueError("Unexpected result format.")
 
-     #print(f"Retrieved Documents: {retrieved_documents}")
-
-    
-     
 
     retrieved_documents = results["documents"]
     retrieved_ids = results["ids"] 
