@@ -319,7 +319,7 @@ def retrieve(state: GraphState):
 
         # Debug the content of the results
     print(f"Documents: {documents}")
-        #1print(f"Embeddings: {embeddings}")
+    print(f"Embeddings: {embeddings}")
     print(f"Metadatas: {metadatas}")
 
         # Handle empty results
@@ -333,9 +333,9 @@ def retrieve(state: GraphState):
             #1 raise ValueError("Mismatch in lengths of retrieved data.")
 
         # Debug lengths
-    print(f"Documents Length: {len(documents)}")
-        #1 print(f"Embeddings Length: {len(embeddings)}")
-    print(f"Metadatas Length: {len(metadatas)}")
+    #print(f"Documents Length: {len(documents)}")
+    #print(f"Embeddings Length: {len(embeddings)}")
+    #print(f"Metadatas Length: {len(metadatas)}")
     
       
     print('results harvested')
