@@ -161,7 +161,7 @@ print(f"Available Collections: {[collection.name for collection in collections]}
 
 # Access the specific collection
 if any(collection.name == collection_name for collection in collections):
-    collection = client.get_collection(name=collection_name)
+    collection = client.get_collection(name=collection_name,attributes= ["documents", "embeddings","metadatas"])
     print(f"Collection '{collection_name}' exists.")
 
     # Fetch all items in the collection
@@ -171,6 +171,7 @@ if any(collection.name == collection_name for collection in collections):
     # Inspect the content
     
     print(f"Document {52}: {items['documents'][52]}")
+    print(f"Metadata {52}: {items['embeddings'][52]}")
     print(f"Metadata {52}: {items['metadatas'][52]}")
     
     print("-" * 80)
