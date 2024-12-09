@@ -279,7 +279,7 @@ def retrieve(state: GraphState):
         raise ValueError("Results are not in the expected dictionary format.")
 
     # Extract documents
-    retrieved_documents = results.get("documents", [])
+     retrieved_documents = results.get("documents", [])
      if not isinstance(retrieved_documents, list):
         raise ValueError("Retrieved documents are not a list.")
 
