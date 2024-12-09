@@ -272,7 +272,7 @@ def retrieve(state: GraphState):
            
             
         )
-    st.dataframe(results)
+    #st.dataframe(results)
     print("THERE")
     
       
