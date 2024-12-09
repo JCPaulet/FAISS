@@ -71,6 +71,7 @@ from streamlit_chromadb_connection.chromadb_connection import ChromadbConnection
 
 import requests
 import os
+import pandas as pd
 
 # Now your code can safely import libraries that depend on sqlite3
 #from chromadb import Client
@@ -166,7 +167,7 @@ if any(collection.name == collection_name for collection in collections):
 
     # Fetch all items in the collection
     items = collection.get( include=["documents", "embeddings","metadatas"])
-    #st.dataframe(items)
+    pd.DataFrame(items)
     print(f"Number of Items in '{collection_name}': {len(items['documents'])}")
 
     # Inspect the content
