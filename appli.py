@@ -256,7 +256,7 @@ def retrieve(state: GraphState):
         collection_name=collection_name,
         query=queries,
         num_results_limit=3,
-        attributes=["documents", "ids", "metadatas"]
+        attributes=["documents", "metadatas"]
     )
 
     # Ensure results is a DataFrame
@@ -269,7 +269,7 @@ def retrieve(state: GraphState):
     metadatas_column = results["metadatas"].iloc[0]  # Extract the first row (list of metadatas)
 
     print(f"Retrieved Documents: {documents_column}")
-    print(f"Retrieved IDs: {ids_column}")
+    #print(f"Retrieved IDs: {ids_column}")
     print(f"Retrieved Metadatas: {metadatas_column}")
 
     # Ensure lengths match
