@@ -260,9 +260,10 @@ def retrieve(state: GraphState):
     queries_list = [sentence.replace('-', '').strip() for sentence in queries_list if sentence.strip()]
     
     # Add the original question to the list of queries
-    queries = [question] + queries_list
+    #queries = [question] + queries_list
+    queries='What is SALTO?'
     print(queries)
-    print("HERE")
+    print("do conn.query")
     # Query the Chroma collection
     results = conn.query(
            collection_name=collection_name,
@@ -273,8 +274,7 @@ def retrieve(state: GraphState):
             
         )
     #st.dataframe(results)
-    print("THERE")
-    
+      
       
     print('results harvested')
 
