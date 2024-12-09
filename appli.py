@@ -264,19 +264,31 @@ def retrieve(state: GraphState):
     queries='What is SALTO?'
     print(queries)
     print("do conn.query")
+    try:
     # Query the Chroma collection
-    results = conn.query(
-           collection_name=collection_name,
-            query=queries,
-            num_results_limit=3,
-            attributes=["documents", "embeddings", "metadatas"]
-           
-            
-        )
-    #st.dataframe(results)
-      
-      
-    print('results harvested')
+     results = conn.query(
+        collection_name=collection_name,
+        query=queries,
+        num_results_limit=3,
+        attributes=["documents", "embeddings", "metadatas"]
+     )
+    #print('Results Harvested:', results)
+
+    # Validate results structure
+     if not isinstance(results, dict):
+        raise ValueError("Results are not in the expected dictionary format.")
+
+    # Extract documents
+    retrieved_documents = results.get("documents", [])
+     if not isinstance(retrieved_documents, list):
+        raise ValueError("Retrieved documents are not a list.")
+
+     #print(f"Retrieved Documents: {retrieved_documents}")
+
+    except Exception as e:
+     print(f"An error occurred: {e}")
+
+     
 
     retrieved_documents = results["documents"]
     retrieved_ids = results["ids"] 
