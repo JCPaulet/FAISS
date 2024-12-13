@@ -73,6 +73,18 @@ import requests
 import os
 import pandas as pd
 
+from langchain_openai import ChatOpenAI
+
+from langchain_community.graphs import Neo4jGraph
+from langchain_community.vectorstores import Neo4jVector
+from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain.chains import create_retrieval_chain
+from langchain_core.prompts import ChatPromptTemplate
+from sentence_transformers import SentenceTransformer
+from langchain.embeddings.base import Embeddings
+
+
+
 # Now your code can safely import libraries that depend on sqlite3
 #from chromadb import Client
 
@@ -123,28 +135,14 @@ embedding_function = embedding_functions.SentenceTransformerEmbeddingFunction(mo
 
 
 st.set_page_config(page_title="E+ Prog. Guide Chatbot", page_icon=":notebook:")
-#client = chromadb.PersistentClient(path=".devcontainer")
-# Directory to save downloaded files
-db_directory = '.'
 
+#graph
+graph = Neo4jGraph(
+    url=os.getenv('NEO4J_URI'),
+    username=os.getenv('NEO4J_USERNAME'),
+    password=os.getenv('NEO4J_PASSWORD')
+)
 
-# Now configure the connection to Chroma DB
-configuration = {
-    "client": "PersistentClient",
-    "path": db_directory,  # Path to the directory where all the Chroma DB files are stored
-   
-}
-
-
-
-#try:
-   #st.write("Connecting to Chroma DB...")
-conn = st.connection(name="EPPG_2025_lm_v6_mini_embeddings",
-                         type=ChromadbConnection,
-                      
-                         **configuration)
-
-collection_name = "EPPG_2025_lm_v6_mini_embeddings"
 
 multiply_query_prompt = ChatPromptTemplate(
         input_variables=['query'],
