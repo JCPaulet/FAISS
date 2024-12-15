@@ -246,79 +246,69 @@ def retrieve(state: GraphState):
     question = state["question"]
     print(f"Question: {question}")
 
-    # Example query (replace this with your actual query logic)
-    queries = [question]
+   # tag::chunk_vector[]
+    chunk_vector = Neo4jVector.from_existing_index(
+        embedding=embedding_function,
+        graph=graph,
+        index_name="vector",
+        embedding_node_property="textEmbedding",
+        text_node_property="text",
+# end::chunk_vector[]
+# tag::retrieval_query[]
+    retrieval_query="""
+    // get the entities and relationships for the chunk
+    MATCH (node)-[:HAS_ENTITY]->(e)
+    MATCH p = (e)-[r]-(e2)
+    WHERE (node)-[:HAS_ENTITY]->(e2)
 
-    # Query the Chroma collection
-    results = conn.query(
-        collection_name=collection_name,
-        query=queries,
-       
-        num_results_limit=3,
-        attributes=["documents","embeddings", "metadatas"]  # Note: 'ids' is implicitly included in the DataFrame
+    // unwind the path, create a string of the entities and relationships
+    UNWIND relationships(p) as rels
+    WITH 
+        node, 
+        score, 
+        collect(apoc.text.join(
+            [labels(startNode(rels))[0], startNode(rels).id, type(rels), labels(endNode(rels))[0], endNode(rels).id]
+            ," ")) as kg
+    RETURN
+        node.text as text, 
+        score,
+        node.pageNumber as pageNumber,
+        { 
+            entities: kg
+        } AS metadata
+"""
+# end::retrieval_query[]
+)
+
+# tag::retriever[]
+    instructions = (
+        "Use the given context to answer the question."
+        "Reply with an answer that includes the page number of the chunk and other relevant information from the text."
+        "If you don't know the answer, say you don't know."
+        "Context: {context}"
     )
 
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            ("system", instructions),
+            ("human", "{input}"),
+        ]
+    )
 
-    # Ensure results is a DataFrame
-    if not isinstance(results, pd.DataFrame):
-        raise ValueError("Expected results to be a pandas DataFrame.")
- # Extract columns from the DataFrame
-    print("doc col")
-    documents_column = results["documents"].iloc[0]
-    print("id col")
-    ids_column = results["ids"].iloc[0]
-    print("metadata col")
-    metadatas_column = results["metadatas"].iloc[0]
+    chunk_retriever = chunk_vector.as_retriever()
+    chunk_chain = create_stuff_documents_chain(llm, prompt)
+    chunk_retriever = create_retrieval_chain(
+        chunk_retriever, 
+        chunk_chain
+    )
+# end::retriever[]
 
-    
+    def find_chunk(q):
+        return chunk_retriever.invoke({"input": q})
 
-    # Ensure lengths match
-    #if not len(documents_column) == len(ids_column) == len(metadatas_column):
-     #   raise ValueError("Mismatch in lengths of retrieved data.")
-
-    # Process unique documents
-    unique_documents = {}
-    for i, document in enumerate(documents_column):
-        print(f"Processing Document: {document}, Index: {i}")
-        if document not in unique_documents:
-            unique_documents[document] = {
-                "id": ids_column[i],
-                "metadata": metadatas_column[i]
-            }
-
-    # Convert unique documents back to a list
-    unique_documents_list = list(unique_documents.keys())
-    print(f"Unique Documents: {unique_documents_list}")
-
-    # Prepare pairs for CrossEncoder
-    pairs = []
-    metadatas = []
-    for doc in unique_documents_list:
-        pairs.append([question, doc])
-        metadata = unique_documents[doc]["metadata"]  # Access metadata directly
-        metadatas.append(metadata)
-
-    print(f"Pairs for CrossEncoder: {pairs}")
-    print(f"Metadata for CrossEncoder: {metadatas}")
-
-    # Rank documents using CrossEncoder
-    cross_encoder = CrossEncoder("sentence-transformers/all-MiniLM-L6-v2")
-
-    scores = cross_encoder.predict(pairs)
-    scored_pairs = list(zip(scores, pairs, metadatas))
-    scored_pairs_sorted = sorted(scored_pairs, key=lambda x: x[0], reverse=True)
-
-    # Keep the top 3 pairs
-    top_3_pairs = scored_pairs_sorted[:3]
-    context = []
-    for score, pair, metadata in top_3_pairs:
-        _, document = pair
-        custom_doc = CustomDocument(page_content=document, metadata=metadata)
-        context.append(custom_doc)
-
-    # Debug final context
-    for doc in context:
-        print(f"Final Document for Grading: {doc.page_content}")
+while True:
+    q = input(question)
+    print(find_chunk(q))
 
     return {"documents": [doc.to_dict() for doc in context], "question": question}
 
@@ -398,27 +388,16 @@ workflow = StateGraph(GraphState)
 
 # Define nodes
 workflow.add_node("retrieve", retrieve)
-workflow.add_node("grade_documents", grade_documents)
-workflow.add_node("generate", generate)
+#workflow.add_node("grade_documents", grade_documents)
+#workflow.add_node("generate", generate)
 workflow.add_node("transform_query", transform_query)
 
 # Entry point
 workflow.set_entry_point("retrieve")
 
 # Define edges
-workflow.add_edge("retrieve", "grade_documents")
 workflow.add_conditional_edges(
-    "grade_documents",
-    decide_to_generate,
-    {
-        "transform_query": "transform_query",
-        "generate": "generate",
-        END: END,  # Explicit stop condition
-    },
-)
-workflow.add_edge("transform_query", "retrieve")
-workflow.add_conditional_edges(
-    "generate",
+    "retrieve",
     grade_generation_v_documents_and_question,
     {
         "not supported": "transform_query",  # Avoid looping back to "generate"
