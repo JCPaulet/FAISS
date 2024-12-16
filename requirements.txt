@@ -36,3 +36,4 @@ langchain_openai
 #chromadb.utils 
 streamlit_chromadb_connection
 tornado>=6.0
+neo4j
