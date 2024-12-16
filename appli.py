@@ -138,9 +138,9 @@ st.set_page_config(page_title="E+ Prog. Guide Chatbot", page_icon=":notebook:")
 
 #graph
 graph = Neo4jGraph(
-    url=st.secrets('NEO4J_URI'),
-    username=st.secrets('NEO4J_USERNAME'),
-    password=st.secrets('NEO4J_PASSWORD')
+    url=st.secrets['NEO4J_URI'],
+    username=st.secrets['NEO4J_USERNAME'],
+    password=st.secrets['NEO4J_PASSWORD']
 )
 
 
