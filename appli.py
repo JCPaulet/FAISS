@@ -138,9 +138,9 @@ st.set_page_config(page_title="E+ Prog. Guide Chatbot", page_icon=":notebook:")
 
 #graph
 graph = Neo4jGraph(
-    url=os.getenv('NEO4J_URI'),
-    username=os.getenv('NEO4J_USERNAME'),
-    password=os.getenv('NEO4J_PASSWORD')
+    url=st.secrets('NEO4J_URI'),
+    username=st.secrets('NEO4J_USERNAME'),
+    password=st.secrets('NEO4J_PASSWORD')
 )
 
 
@@ -306,9 +306,9 @@ def retrieve(state: GraphState):
     def find_chunk(q):
         return chunk_retriever.invoke({"input": q})
 
-while True:
-    q = input(question)
-    print(find_chunk(q))
+    while True:
+        q = input(question)
+        print(find_chunk(q))
 
     return {"documents": [doc.to_dict() for doc in context], "question": question}
 
